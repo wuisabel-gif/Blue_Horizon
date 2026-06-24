@@ -1,0 +1,7 @@
+roll_warning_deg: 10
+roll_danger_deg: 25
+pitch_warning_deg: 8
+pitch_danger_deg: 20
+estimator_mismatch_warning_deg: 7
+estimator_mismatch_danger_deg: 15
+yaw_rate_warning_deg_s: 30

@@ -1,0 +1,4 @@
+time,imu_roll_deg,imu_pitch_deg,imu_yaw_deg,gtsam_roll_deg,gtsam_pitch_deg,gtsam_yaw_deg,depth_m
+0.00,4.0,-2.5,10.0,0.0,0.0,10.0,0.2
+0.01,4.2,-2.7,10.0,0.0,0.0,10.0,0.2
+0.02,4.4,-2.9,10.0,0.0,0.0,10.0,0.2
