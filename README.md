@@ -1,6 +1,18 @@
 # Blue Horizon
 
-A Go command-line diagnostic tool for autonomous underwater vehicle attitude logs.
+Blue Horizon
+
+Modern autonomous underwater vehicles depend on many sensors working together: an IMU estimates attitude, a DVL measures velocity, a state estimator such as GTSAM fuses those measurements into a pose estimate, and the control system assumes that estimate is physically reasonable.
+
+When something goes wrong, the failure is often subtle. A frame transform may be flipped by 180 degrees. An IMU may disagree with the estimator by only a few degrees before the navigation solution begins drifting. A timestamp mismatch or incorrect body-frame convention can quietly propagate through the estimator until the vehicle is no longer trustworthy.
+
+Blue Horizon is a command-line diagnostic tool for analyzing AUV attitude logs.
+
+Instead of simply plotting roll, pitch, and yaw, Blue Horizon looks for physically meaningful inconsistencies between the raw IMU and the state estimator. It detects excessive roll and pitch, abnormal yaw rates, estimator disagreement, and signs that commonly indicate frame-convention mistakes, IMU mounting errors, estimator divergence, or sensor synchronization problems.
+
+The project is designed to fit naturally into robotics workflows. Engineers can export attitude data from ROS 2 bags, GTSAM, or other state estimators as CSV, run a single command, and receive a concise diagnostic report before spending hours debugging visualization tools.
+
+Although developed around an autonomous underwater vehicle, the same approach applies to drones, race cars, and other robotic systems that depend on reliable attitude estimation.
 
 Blue Horizon answers one practical question:
 
