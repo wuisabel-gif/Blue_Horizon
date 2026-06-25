@@ -1,5 +1,9 @@
 # Blue Horizon
 
+<p align="center">
+  <img src="image.png" alt="Blue Horizon logo" width="360">
+</p>
+
 Modern autonomous underwater vehicles depend on many sensors working together: an IMU estimates attitude, a DVL measures velocity, a state estimator such as GTSAM fuses those measurements into a pose estimate, and the control system assumes that estimate is physically reasonable.
 
 When something goes wrong, the failure is often subtle. A frame transform may be flipped by 180 degrees. An IMU may disagree with the estimator by only a few degrees before the navigation solution begins drifting. A timestamp mismatch or incorrect body-frame convention can quietly propagate through the estimator until the vehicle is no longer trustworthy.
@@ -46,12 +50,14 @@ Verify ENU/NED/body-frame conventions before trusting warnings.
 [WARNING] t=0.04 abnormal yaw rate: 3140.0 deg
 
 Blue Horizon Report
+Verdict: DANGER
+Summary: DANGER: review attitude events before field use
 Samples processed: 5
 Duration: 0.04 s
 Max roll: 26.5 deg
 Max pitch: 9.5 deg
 Max IMU/GTSAM mismatch: 22.5 deg
-Warnings:
+Event counts:
 - DANGER estimator_roll_mismatch: 2 events
 - DANGER roll: 1 events
 - WARNING estimator_pitch_mismatch: 1 events
@@ -61,6 +67,9 @@ Warnings:
 Worst event:
 t=0.04 s
 yaw_rate=3140.0 deg
+Diagnostic hints:
+- Yaw-rate warning: check timestamp spacing before diagnosing vehicle spin or thruster imbalance.
+- Body attitude warning: confirm IMU mounting calibration was applied for this vehicle.
 ```
 
 That output says:
@@ -244,6 +253,7 @@ internal/analyzer/      detection rules and analysis summary
 internal/attitude/      angle helpers
 internal/calibration/   IMU offset estimation and loading
 internal/config/        threshold config loading
+internal/health/        health verdicts and diagnostic hints
 internal/input/         CSV parser
 internal/report/        text and markdown reports
 examples/               sample input data and config
