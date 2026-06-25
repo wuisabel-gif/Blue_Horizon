@@ -12,12 +12,6 @@ The project is designed to fit naturally into robotics workflows. Engineers can 
 
 Although developed around an autonomous underwater vehicle, the same approach applies to drones, race cars, and other robotic systems that depend on reliable attitude estimation.
 
-Blue Horizon answers one practical question:
-
-> Is the AUV body attitude physically reasonable right now?
-
-It starts as an offline CSV analyzer. Feed it exported IMU and estimator attitude data, and it will flag excessive roll, excessive pitch, abnormal yaw rate, and disagreement between raw IMU attitude and the GTSAM/state-estimator attitude.
-
 ## What It Can Do
 
 Given this CSV:
