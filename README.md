@@ -1,7 +1,5 @@
 # Blue Horizon
 
-Blue Horizon
-
 Modern autonomous underwater vehicles depend on many sensors working together: an IMU estimates attitude, a DVL measures velocity, a state estimator such as GTSAM fuses those measurements into a pose estimate, and the control system assumes that estimate is physically reasonable.
 
 When something goes wrong, the failure is often subtle. A frame transform may be flipped by 180 degrees. An IMU may disagree with the estimator by only a few degrees before the navigation solution begins drifting. A timestamp mismatch or incorrect body-frame convention can quietly propagate through the estimator until the vehicle is no longer trustworthy.
