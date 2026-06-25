@@ -1,0 +1,5 @@
+# Keep GitHub language stats focused on the Go diagnostic tool.
+blue-horizon.html linguist-generated
+assets/** linguist-vendored
+fonts/** linguist-vendored
+image.png linguist-vendored

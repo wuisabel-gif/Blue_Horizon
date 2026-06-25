@@ -73,13 +73,6 @@ header{position:sticky; top:0; z-index:50;
   font-size:.78rem; letter-spacing:.04em}
 .nav-links a{color:var(--ink-dim); text-decoration:none; transition:color .15s}
 .nav-links a:hover{color:var(--cyan)}
-.frame-chip{display:flex; align-items:center; gap:8px; font-family:var(--font-mono);
-  font-size:.68rem; color:var(--ink-dim); border:1px solid var(--rule);
-  padding:5px 10px; border-radius:6px; background:var(--hull); white-space:nowrap}
-.frame-chip b{color:var(--sea); font-weight:500}
-.dot{width:7px; height:7px; border-radius:50%; background:var(--sea);
-  box-shadow:0 0 8px var(--sea)}
-
 .hero{display:grid; grid-template-columns:1.02fr 1fr; gap:46px; align-items:center;
   padding:64px 0 60px}
 .hero h1{font-family:var(--font-display); font-weight:600; line-height:1.02;
@@ -199,15 +192,6 @@ section{padding:62px 0; border-top:1px solid var(--rule-soft)}
 .c-ok{color:var(--sea)} .c-warn{color:var(--amber)} .c-dang{color:var(--red)}
 .c-prompt{color:var(--cyan-deep)}
 .hidden{display:none}
-.shot-grid{display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:22px}
-.shot-card{background:var(--hull); border:1px solid var(--rule); border-radius:12px;
-  overflow:hidden}
-.shot-card h3{margin:0; padding:12px 14px; font-family:var(--font-mono);
-  font-size:.72rem; letter-spacing:.08em; text-transform:uppercase;
-  color:var(--ink-dim); border-bottom:1px solid var(--rule-soft)}
-.shot-card img{display:block; width:100%; height:auto; background:var(--abyss-2)}
-.shot-card.wide{grid-column:1 / -1}
-
 .split{display:grid; grid-template-columns:1.05fr 1fr; gap:34px; align-items:center}
 .split p{color:var(--ink-dim)}
 .split ol{color:var(--ink-dim); padding-left:20px; margin:14px 0 0}
@@ -261,19 +245,6 @@ section{padding:62px 0; border-top:1px solid var(--rule-soft)}
 .finding-grid .num{display:block; color:var(--ink); font-size:1.05rem; margin-top:4px}
 .finding-grid .bad{color:var(--amber)}
 
-.road{display:grid; gap:0; border-top:1px solid var(--rule-soft)}
-.stage{display:grid; grid-template-columns:72px minmax(160px,.7fr) 1fr auto; gap:18px;
-  align-items:center; padding:17px 0; border-bottom:1px solid var(--rule-soft)}
-.stage .vn{font-family:var(--font-mono); font-size:.72rem; letter-spacing:.1em; color:var(--ink-faint)}
-.stage h4{font-family:var(--font-display); font-weight:600; font-size:1rem; margin:0}
-.stage p{font-size:.86rem; color:var(--ink-dim); margin:0}
-.stage .st{display:inline-block; font-family:var(--font-mono);
-  font-size:.6rem; letter-spacing:.08em; text-transform:uppercase; padding:3px 7px; border-radius:4px; white-space:nowrap}
-.st-core{color:var(--sea); border:1px solid rgba(167,220,255,.42)}
-.st-now{color:var(--cyan); border:1px solid var(--cyan-deep)}
-.st-next{color:var(--amber); border:1px solid rgba(244,178,60,.4)}
-.stage.is-now{background:linear-gradient(90deg,rgba(167,220,255,.06),transparent)}
-
 footer{border-top:1px solid var(--rule); padding:40px 0 50px; margin-top:20px}
 .foot{display:flex; align-items:center; gap:18px; flex-wrap:wrap}
 .foot .tag{font-family:var(--font-mono); font-size:.72rem; color:var(--ink-faint); margin-left:auto}
@@ -281,11 +252,7 @@ footer{border-top:1px solid var(--rule); padding:40px 0 50px; margin-top:20px}
 @media(max-width:880px){
   .hero{grid-template-columns:1fr; gap:34px; padding:40px 0}
   .split,.safety{grid-template-columns:1fr; gap:22px}
-  .stage{grid-template-columns:54px 1fr; gap:8px 14px; align-items:start}
-  .stage p,.stage .st{grid-column:2}
   .finding-grid{grid-template-columns:1fr}
-  .shot-grid{grid-template-columns:1fr}
-  .shot-card.wide{grid-column:auto}
   .nav-links{display:none}
 }
 @media(prefers-reduced-motion:reduce){
@@ -315,12 +282,7 @@ footer{border-top:1px solid var(--rule); padding:40px 0 50px; margin-top:20px}
       <a href="#cli">CLI</a>
       <a href="#frame">Frame Safety</a>
       <a href="#barracuda">Barracuda</a>
-      <a href="#road">Roadmap</a>
     </nav>
-    <div class="frame-chip" title="Frame assumptions, printed at startup">
-      <span class="dot"></span>
-      base_link · <b>x→fwd y→left z→up</b> · deg
-    </div>
   </div>
 </header>
 
@@ -517,24 +479,6 @@ Flags:
   -h, --help   help for blue-horizon</pre>
       </div>
     </div>
-    <div class="shot-grid" aria-label="Terminal screenshot gallery">
-      <figure class="shot-card">
-        <h3>Help Command</h3>
-        <img src="https://res.cloudinary.com/ds2z90h0x/image/upload/v1782335460/help_terminal_sq86lo.png" alt="Blue Horizon help command shown in a terminal">
-      </figure>
-      <figure class="shot-card wide">
-        <h3>Analyze Command</h3>
-        <img src="https://res.cloudinary.com/ds2z90h0x/image/upload/v1782335459/1_qgffki.png" alt="Blue Horizon analyze command output with warning and danger events">
-      </figure>
-      <figure class="shot-card">
-        <h3>Markdown Report</h3>
-        <img src="https://res.cloudinary.com/ds2z90h0x/image/upload/v1782335459/2_uivqih.png" alt="Blue Horizon markdown report command output">
-      </figure>
-      <figure class="shot-card">
-        <h3>Calibration Command</h3>
-        <img src="https://res.cloudinary.com/ds2z90h0x/image/upload/v1782335459/3_usydut.jpg" alt="Blue Horizon calibration command output estimating IMU mounting offset">
-      </figure>
-    </div>
   </section>
 
   <section id="align">
@@ -619,20 +563,6 @@ Flags:
     </div>
   </section>
 
-  <section id="road">
-    <div class="sec-head">
-      <span class="eyebrow">Roadmap</span>
-      <h2>Offline first, live later</h2>
-      <p>The offline analyzer is the foundation. Live transport is added only once the analysis it feeds is trustworthy.</p>
-    </div>
-    <div class="road">
-      <div class="stage"><div class="vn">V1</div><h4>CSV analyzer</h4><p>Read attitude logs, detect roll / pitch / mismatch, print warnings.</p><span class="st st-core">MVP</span></div>
-      <div class="stage"><div class="vn">V2</div><h4>Config thresholds</h4><p>Per-vehicle warning and danger bands from config.yaml.</p><span class="st st-core">MVP</span></div>
-      <div class="stage"><div class="vn">V3</div><h4>Mounting calibrate</h4><p>Recover IMU offsets from a level sample; subtract before checks.</p><span class="st st-core">MVP</span></div>
-      <div class="stage is-now"><div class="vn">V4</div><h4>Health report</h4><p>Verdict, event counts, worst event, and frame-safety diagnostic hints after each analysis run.</p><span class="st st-now">current focus</span></div>
-      <div class="stage"><div class="vn">V5</div><h4>Live mode</h4><p>CSV tail, UDP / WebSocket, ROS 2 bridge via a small Python/C++ shim.</p><span class="st st-next">planned</span></div>
-    </div>
-  </section>
 </main>
 
 <footer>
@@ -645,7 +575,6 @@ Flags:
       </svg>
       Blue Horizon
     </a>
-    <span class="frame-chip"><span class="dot"></span> base_link · <b>x→fwd y→left z→up</b> · deg</span>
     <span class="tag">© 2026 wuisabel-gif · a diagnostic instrument · not a splash page</span>
   </div>
 </footer>
