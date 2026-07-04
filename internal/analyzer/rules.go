@@ -32,8 +32,8 @@ func EvaluateSample(sample input.Sample, previous *input.Sample, cfg config.Conf
 	events = append(events, thresholdEvent(sample.TimeSec, "roll", "roll dangerous", "roll too high", correctedRoll, cfg.RollWarningDeg, cfg.RollDangerDeg)...)
 	events = append(events, thresholdEvent(sample.TimeSec, "pitch", "pitch dangerous", "pitch too high", correctedPitch, cfg.PitchWarningDeg, cfg.PitchDangerDeg)...)
 
-	rollMismatch := attitude.AbsDeg(correctedRoll - sample.GTSAMRollDeg)
-	pitchMismatch := attitude.AbsDeg(correctedPitch - sample.GTSAMPitchDeg)
+	rollMismatch := attitude.AbsDeg(attitude.DeltaDegrees(correctedRoll, sample.GTSAMRollDeg))
+	pitchMismatch := attitude.AbsDeg(attitude.DeltaDegrees(correctedPitch, sample.GTSAMPitchDeg))
 	events = append(events, mismatchEvent(sample.TimeSec, "estimator_roll_mismatch", "IMU/GTSAM roll mismatch", rollMismatch, cfg)...)
 	events = append(events, mismatchEvent(sample.TimeSec, "estimator_pitch_mismatch", "IMU/GTSAM pitch mismatch", pitchMismatch, cfg)...)
 
@@ -76,5 +76,13 @@ func mismatchEvent(t float64, rule, message string, value float64, cfg config.Co
 }
 
 func FormatEvent(event Event) string {
-	return fmt.Sprintf("[%s] t=%.2f %s: %.1f deg", event.Severity, event.TimeSec, event.Message, event.ValueDeg)
+	return fmt.Sprintf("[%s] t=%.2f %s: %.1f %s", event.Severity, event.TimeSec, event.Message, event.ValueDeg, Unit(event.Rule))
+}
+
+// Unit returns the display unit for a rule's value.
+func Unit(rule string) string {
+	if rule == "yaw_rate" {
+		return "deg/s"
+	}
+	return "deg"
 }

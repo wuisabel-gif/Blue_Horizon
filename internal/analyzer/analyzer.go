@@ -32,8 +32,8 @@ func Analyze(samples []input.Sample, cfg config.Config, cal calibration.Calibrat
 		correctedPitch := sample.IMUPitchDeg - cal.PitchOffsetDeg
 		rollAbs := attitude.AbsDeg(correctedRoll)
 		pitchAbs := attitude.AbsDeg(correctedPitch)
-		rollMismatch := attitude.AbsDeg(correctedRoll - sample.GTSAMRollDeg)
-		pitchMismatch := attitude.AbsDeg(correctedPitch - sample.GTSAMPitchDeg)
+		rollMismatch := attitude.AbsDeg(attitude.DeltaDegrees(correctedRoll, sample.GTSAMRollDeg))
+		pitchMismatch := attitude.AbsDeg(attitude.DeltaDegrees(correctedPitch, sample.GTSAMPitchDeg))
 
 		result.MaxRollDeg = maxFloat(result.MaxRollDeg, rollAbs)
 		result.MaxPitchDeg = maxFloat(result.MaxPitchDeg, pitchAbs)
@@ -42,7 +42,7 @@ func Analyze(samples []input.Sample, cfg config.Config, cal calibration.Calibrat
 		events := EvaluateSample(sample, previous, cfg, cal)
 		for _, event := range events {
 			result.Events = append(result.Events, event)
-			if result.WorstEvent == nil || attitude.AbsDeg(event.ValueDeg) > attitude.AbsDeg(result.WorstEvent.ValueDeg) {
+			if worseThan(event, result.WorstEvent) {
 				eventCopy := event
 				result.WorstEvent = &eventCopy
 			}
@@ -51,6 +51,19 @@ func Analyze(samples []input.Sample, cfg config.Config, cal calibration.Calibrat
 	}
 
 	return result
+}
+
+// worseThan reports whether candidate should replace the current worst event.
+// Values are only comparable within the same unit; degree-valued events outrank
+// rate events so a large deg/s number cannot bury a dangerous attitude.
+func worseThan(candidate Event, incumbent *Event) bool {
+	if incumbent == nil {
+		return true
+	}
+	if Unit(candidate.Rule) != Unit(incumbent.Rule) {
+		return Unit(candidate.Rule) == "deg"
+	}
+	return attitude.AbsDeg(candidate.ValueDeg) > attitude.AbsDeg(incumbent.ValueDeg)
 }
 
 func maxFloat(a, b float64) float64 {

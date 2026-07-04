@@ -47,7 +47,7 @@ Verify ENU/NED/body-frame conventions before trusting warnings.
 [DANGER] t=0.03 IMU/GTSAM roll mismatch: 22.5 deg
 [WARNING] t=0.04 pitch too high: 9.5 deg
 [WARNING] t=0.04 IMU/GTSAM pitch mismatch: 8.5 deg
-[WARNING] t=0.04 abnormal yaw rate: 3140.0 deg
+[WARNING] t=0.04 abnormal yaw rate: 3140.0 deg/s
 
 Blue Horizon Report
 Verdict: DANGER
@@ -65,8 +65,8 @@ Event counts:
 - WARNING roll: 1 events
 - WARNING yaw_rate: 1 events
 Worst event:
-t=0.04 s
-yaw_rate=3140.0 deg
+t=0.03 s
+roll=26.5 deg
 Diagnostic hints:
 - Yaw-rate warning: check timestamp spacing before diagnosing vehicle spin or thruster imbalance.
 - Body attitude warning: confirm IMU mounting calibration was applied for this vehicle.

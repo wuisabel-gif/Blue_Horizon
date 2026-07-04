@@ -26,7 +26,7 @@ func PrintText(w io.Writer, result analyzer.Result) {
 	if result.WorstEvent != nil {
 		fmt.Fprintln(w, "Worst event:")
 		fmt.Fprintf(w, "t=%.2f s\n", result.WorstEvent.TimeSec)
-		fmt.Fprintf(w, "%s=%.1f deg\n", result.WorstEvent.Rule, result.WorstEvent.ValueDeg)
+		fmt.Fprintf(w, "%s=%.1f %s\n", result.WorstEvent.Rule, result.WorstEvent.ValueDeg, analyzer.Unit(result.WorstEvent.Rule))
 	}
 	if len(assessment.Hints) > 0 {
 		fmt.Fprintln(w, "Diagnostic hints:")
@@ -57,7 +57,7 @@ func PrintMarkdown(w io.Writer, result analyzer.Result) {
 		fmt.Fprintln(w)
 		fmt.Fprintln(w, "## Worst Event")
 		fmt.Fprintf(w, "- t=%.2f s\n", result.WorstEvent.TimeSec)
-		fmt.Fprintf(w, "- %s: %.1f deg\n", result.WorstEvent.Rule, result.WorstEvent.ValueDeg)
+		fmt.Fprintf(w, "- %s: %.1f %s\n", result.WorstEvent.Rule, result.WorstEvent.ValueDeg, analyzer.Unit(result.WorstEvent.Rule))
 	}
 	if len(assessment.Hints) > 0 {
 		fmt.Fprintln(w)
