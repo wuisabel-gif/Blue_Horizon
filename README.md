@@ -182,6 +182,24 @@ Analyze with calibration applied:
 go run ./cmd/blue-horizon analyze examples/data.csv --config examples/config.yaml --calibration calibration.yaml
 ```
 
+## Rosbag2 (.mcap) Input
+
+Blue Horizon reads rosbag2 `.mcap` files directly — no ROS install and no CSV
+export step. Point it at the bag and name the topics:
+
+```sh
+go run ./cmd/blue-horizon analyze flight.mcap --imu /imu/data --est /odometry/filtered
+```
+
+- `--imu` (default `/imu/data`): a `sensor_msgs/msg/Imu` topic. Orientation is
+  read from the quaternion and converted to roll/pitch/yaw.
+- `--est` (optional): the estimator topic, either `nav_msgs/msg/Odometry` or
+  `geometry_msgs/msg/PoseStamped`. If omitted, mismatch checks are skipped.
+
+Each IMU sample is paired with the nearest estimator sample in time, and the
+timeline is zero-based off the first IMU message. Any command that takes a CSV
+(`analyze`, `report`) accepts a `.mcap` path in the same position.
+
 ## CSV Format
 
 Required headers:
@@ -254,7 +272,7 @@ internal/attitude/      angle helpers
 internal/calibration/   IMU offset estimation and loading
 internal/config/        threshold config loading
 internal/health/        health verdicts and diagnostic hints
-internal/input/         CSV parser
+internal/input/         CSV and rosbag2 (.mcap) input
 internal/report/        text and markdown reports
 examples/               sample input data and config
 tests/                  sample test fixtures
@@ -274,8 +292,11 @@ GOCACHE="$PWD/.gocache" go test ./...
 
 ## Roadmap
 
+- Group consecutive same-type events into spans instead of per-sample lines.
+- Add a signature layer (constant ~180° mismatch → flipped frame; drift that
+  grows with time → clock skew).
+- Support PX4/ArduPilot logs (`.ulg`, `.bin`).
 - Add more report formats.
 - Add CSV tail mode for near-live monitoring.
-- Add UDP or WebSocket live input.
-- Add a small ROS 2 bridge that exports data to this Go tool.
-- Keep native ROS 2 Go bindings out of the first version.
+
+Done: direct rosbag2 `.mcap` ingestion (no ROS install required).

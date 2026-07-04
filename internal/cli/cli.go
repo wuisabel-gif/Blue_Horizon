@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"strings"
 
 	"blue-horizon/internal/analyzer"
 	"blue-horizon/internal/calibration"
@@ -19,6 +20,8 @@ type options struct {
 	calibrationPath string
 	outputPath      string
 	format          string
+	imuTopic        string
+	estTopic        string
 }
 
 func NewRootCommand() *cobra.Command {
@@ -49,9 +52,7 @@ func newAnalyzeCommand(opts *options, out io.Writer) *cobra.Command {
 			return runAnalyze(args[0], opts, out, false)
 		},
 	}
-	cmd.Flags().StringVar(&opts.configPath, "config", "", "config YAML path")
-	cmd.Flags().StringVar(&opts.calibrationPath, "calibration", "", "calibration YAML path")
-	cmd.Flags().StringVar(&opts.format, "format", "text", "report format: text or markdown")
+	addInputFlags(cmd, opts)
 	return cmd
 }
 
@@ -64,10 +65,16 @@ func newReportCommand(opts *options, out io.Writer) *cobra.Command {
 			return runAnalyze(args[0], opts, out, true)
 		},
 	}
+	addInputFlags(cmd, opts)
+	return cmd
+}
+
+func addInputFlags(cmd *cobra.Command, opts *options) {
 	cmd.Flags().StringVar(&opts.configPath, "config", "", "config YAML path")
 	cmd.Flags().StringVar(&opts.calibrationPath, "calibration", "", "calibration YAML path")
 	cmd.Flags().StringVar(&opts.format, "format", "text", "report format: text or markdown")
-	return cmd
+	cmd.Flags().StringVar(&opts.imuTopic, "imu", "/imu/data", "IMU topic (.mcap input only)")
+	cmd.Flags().StringVar(&opts.estTopic, "est", "", "estimator topic, e.g. /odometry/filtered (.mcap input only)")
 }
 
 func newCalibrateCommand(opts *options, out io.Writer) *cobra.Command {
@@ -94,7 +101,7 @@ func runAnalyze(csvPath string, opts *options, out io.Writer, reportOnly bool) e
 	if err != nil {
 		return err
 	}
-	samples, err := input.ReadCSV(csvPath)
+	samples, err := readSamples(csvPath, opts)
 	if err != nil {
 		return err
 	}
@@ -139,6 +146,13 @@ func runCalibrate(csvPath string, opts *options, out io.Writer) error {
 	fmt.Fprintf(out, "pitch_offset_deg: %.3f\n", cal.PitchOffsetDeg)
 	fmt.Fprintf(out, "Saved calibration to %s\n", opts.outputPath)
 	return nil
+}
+
+func readSamples(path string, opts *options) ([]input.Sample, error) {
+	if strings.HasSuffix(strings.ToLower(path), ".mcap") {
+		return input.ReadMCAP(path, opts.imuTopic, opts.estTopic)
+	}
+	return input.ReadCSV(path)
 }
 
 func printFrameAssumptions(out io.Writer) {
